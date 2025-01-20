@@ -3,7 +3,7 @@ import React from 'react';
 import { Calculator, TrendingUp, Building, CreditCard, ChevronRight } from 'lucide-react';
 
 const formatPourcentage = (value) => {
-  return `${value.toFixed(2)}%`;
+  return value ? `${value.toFixed(2)}%` : '-';
 };
 
 export default function CalculateurPage() {
@@ -33,22 +33,18 @@ export default function CalculateurPage() {
               <div className="bg-purple-50 rounded-3xl p-8 shadow-sm">
                 <span className="text-sm text-purple-600 font-medium">Rendement brut</span>
                 <div className="mt-2 flex items-baseline space-x-2">
-                  {resultats.rendementBrut && (
-                    <span className="text-4xl font-light text-purple-700">
-                      {formatPourcentage(resultats.rendementBrut)}
-                    </span>
-                  )}
+                  <span className="text-4xl font-light text-purple-700">
+                    {formatPourcentage(resultats.rendementBrut)}  
+                  </span>
                 </div>
               </div>
 
               <div className="bg-green-50 rounded-3xl p-8 shadow-sm">
                 <span className="text-sm text-green-600 font-medium">Rendement net</span>  
                 <div className="mt-2 flex items-baseline space-x-2">
-                  {resultats.rendementNet && (
-                    <span className="text-4xl font-light text-green-700">
-                      {formatPourcentage(resultats.rendementNet)}
-                    </span>
-                  )}  
+                  <span className="text-4xl font-light text-green-700">
+                    {formatPourcentage(resultats.rendementNet)}
+                  </span>
                 </div>
               </div>
             </div>
