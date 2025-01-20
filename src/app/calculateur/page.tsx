@@ -10,7 +10,7 @@ export default function CalculateurPage() {
   const [inputs, setInputs] = React.useState({
     // ...  
   });
-
+  
   const [resultats, setResultats] = React.useState({
     // ...
   });
@@ -33,14 +33,22 @@ export default function CalculateurPage() {
               <div className="bg-purple-50 rounded-3xl p-8 shadow-sm">
                 <span className="text-sm text-purple-600 font-medium">Rendement brut</span>
                 <div className="mt-2 flex items-baseline space-x-2">
-                  <span className="text-4xl font-light text-purple-700">{formatPourcentage(resultats.rendementBrut)}</span>
+                  {resultats.rendementBrut && (
+                    <span className="text-4xl font-light text-purple-700">
+                      {formatPourcentage(resultats.rendementBrut)}
+                    </span>
+                  )}
                 </div>
               </div>
 
               <div className="bg-green-50 rounded-3xl p-8 shadow-sm">
                 <span className="text-sm text-green-600 font-medium">Rendement net</span>  
                 <div className="mt-2 flex items-baseline space-x-2">
-                  <span className="text-4xl font-light text-green-700">{formatPourcentage(resultats.rendementNet)}</span>
+                  {resultats.rendementNet && (
+                    <span className="text-4xl font-light text-green-700">
+                      {formatPourcentage(resultats.rendementNet)}
+                    </span>
+                  )}  
                 </div>
               </div>
             </div>
