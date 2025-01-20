@@ -12,6 +12,8 @@ export default function CalculateurPage() {
   });
   
   const [resultats, setResultats] = React.useState({
+    rendementBrut: 0,
+    rendementNet: 0,
     // ...
   });
 
