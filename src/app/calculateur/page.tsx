@@ -18,11 +18,11 @@ type Resultats = {
 };
 
 const formatPourcentage = (value?: number) => {
-  return value ? `${value.toFixed(2)}%` : '-';
+  return value !== undefined ? `${value.toFixed(2)}%` : '-';
 };
 
 const formatEuros = (value?: number) => {
-  return value ? `${value.toFixed(2)}€` : '-';
+  return value !== undefined ? `${value.toFixed(2)}€` : '-';
 };
 
 export default function CalculateurPage() {
@@ -196,4 +196,4 @@ export default function CalculateurPage() {
       </div>
     </div>
   );
-}  
+}
