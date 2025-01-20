@@ -3,37 +3,61 @@ import React from 'react';
 import { Calculator, TrendingUp, Building, CreditCard, ChevronRight } from 'lucide-react';
 
 type Inputs = {
-  // Définir les types des inputs ici
+  prixAchat: number;
+  prixTravaux: number;
+  loyerMensuel: number;
+  taxeFonciere: number;
+  chargesAnnuelles: number;
 };
 
 type Resultats = {
   rendementBrut: number;
   rendementNet: number;
-  // Définir les autres propriétés des résultats ici
+  loyerAnnuel: number;
+  rentabilite: number;
 };
 
-// Déplacer cette fonction utilitaire en dehors du composant
 const formatPourcentage = (value?: number) => {
   return value ? `${value.toFixed(2)}%` : '-';
 };
 
+const formatEuros = (value?: number) => {
+  return value ? `${value.toFixed(2)}€` : '-';
+};
+
 export default function CalculateurPage() {
   const [inputs, setInputs] = React.useState<Inputs>({
-    // Initialiser les inputs avec les bonnes valeurs par défaut 
+    prixAchat: 0,
+    prixTravaux: 0, 
+    loyerMensuel: 0,
+    taxeFonciere: 0,
+    chargesAnnuelles: 0,
   });
   
   const [resultats, setResultats] = React.useState<Resultats>({
     rendementBrut: 0,
     rendementNet: 0,
-    // Initialiser les autres résultats à des valeurs par défaut sensées
+    loyerAnnuel: 0,
+    rentabilite: 0,
   });
 
-  // Implémenter cette fonction pour calculer les résultats à partir des inputs
   const calculerResultats = (inputs: Inputs) => {
-    // Logique de calcul ici, retourne un objet de type Resultats
+    const loyerAnnuel = inputs.loyerMensuel * 12;
+    const coutTotal = inputs.prixAchat + inputs.prixTravaux;
+    const chargesTotal = inputs.taxeFonciere + inputs.chargesAnnuelles;
+
+    const rendementBrut = (loyerAnnuel / coutTotal) * 100; 
+    const rendementNet = ((loyerAnnuel - chargesTotal) / coutTotal) * 100;
+    const rentabilite = (loyerAnnuel - chargesTotal) / inputs.prixAchat * 100;
+
+    return {
+      rendementBrut,
+      rendementNet,
+      loyerAnnuel,
+      rentabilite,
+    };
   };
 
-  // Utiliser useEffect pour recalculer les résultats à chaque changement d'input
   React.useEffect(() => {
     setResultats(calculerResultats(inputs));
   }, [inputs]);
@@ -48,7 +72,77 @@ export default function CalculateurPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="space-y-6">
-            {/* Contenu des blocs d'input */}
+            <div className="bg-white rounded-3xl p-8 shadow-sm">
+              <h3 className="text-xl font-light mb-6">Informations sur l'investissement</h3>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Prix d'achat
+                  </label>
+                  <input
+                    type="number"
+                    value={inputs.prixAchat}
+                    onChange={(e) => setInputs({...inputs, prixAchat: Number(e.target.value)})}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Prix des travaux
+                  </label>
+                  <input
+                    type="number"
+                    value={inputs.prixTravaux}
+                    onChange={(e) => setInputs({...inputs, prixTravaux: Number(e.target.value)})}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"  
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Loyer mensuel
+                  </label>
+                  <input
+                    type="number"
+                    value={inputs.loyerMensuel}
+                    onChange={(e) => setInputs({...inputs, loyerMensuel: Number(e.target.value)})}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />  
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-3xl p-8 shadow-sm">
+              <h3 className="text-xl font-light mb-6">Charges et taxes annuelles</h3>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Taxe foncière
+                  </label>
+                  <input  
+                    type="number"
+                    value={inputs.taxeFonciere}
+                    onChange={(e) => setInputs({...inputs, taxeFonciere: Number(e.target.value)})}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Autres charges annuelles
+                  </label> 
+                  <input
+                    type="number"  
+                    value={inputs.chargesAnnuelles}
+                    onChange={(e) => setInputs({...inputs, chargesAnnuelles: Number(e.target.value)})}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
           
           <div className="lg:sticky lg:top-8 space-y-6 self-start">
@@ -76,7 +170,25 @@ export default function CalculateurPage() {
               <h3 className="text-xl font-light mb-6">Détails du calcul</h3>
 
               <div className="space-y-4">
-                {/* Contenu des détails du calcul */}  
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Loyer annuel</span>  
+                  <span className="font-medium">{formatEuros(resultats.loyerAnnuel)}</span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Coût total d'acquisition</span>
+                  <span className="font-medium">{formatEuros(inputs.prixAchat + inputs.prixTravaux)}</span>  
+                </div>
+
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Charges annuelles totales</span>
+                  <span className="font-medium">{formatEuros(inputs.taxeFonciere + inputs.chargesAnnuelles)}</span>
+                </div>
+                  
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Rentabilité sur prix d'achat</span>
+                  <span className="font-medium">{formatPourcentage(resultats.rentabilite)}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -84,4 +196,4 @@ export default function CalculateurPage() {
       </div>
     </div>
   );
-}
+}  
