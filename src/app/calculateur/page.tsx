@@ -2,6 +2,10 @@
 import React from 'react';
 import { Calculator, TrendingUp, Building, CreditCard, ChevronRight } from 'lucide-react';
 
+const formatPourcentage = (value) => {
+  return `${value.toFixed(2)}%`;
+};
+
 export default function CalculateurPage() {
   const [inputs, setInputs] = React.useState({
     // ...
