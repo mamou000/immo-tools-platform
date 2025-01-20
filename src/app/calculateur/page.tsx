@@ -2,20 +2,41 @@
 import React from 'react';
 import { Calculator, TrendingUp, Building, CreditCard, ChevronRight } from 'lucide-react';
 
-const formatPourcentage = (value) => {
+type Inputs = {
+  // Définir les types des inputs ici
+};
+
+type Resultats = {
+  rendementBrut: number;
+  rendementNet: number;
+  // Définir les autres propriétés des résultats ici
+};
+
+// Déplacer cette fonction utilitaire en dehors du composant
+const formatPourcentage = (value?: number) => {
   return value ? `${value.toFixed(2)}%` : '-';
 };
 
 export default function CalculateurPage() {
-  const [inputs, setInputs] = React.useState({
-    // ...  
+  const [inputs, setInputs] = React.useState<Inputs>({
+    // Initialiser les inputs avec les bonnes valeurs par défaut 
   });
   
-  const [resultats, setResultats] = React.useState({
+  const [resultats, setResultats] = React.useState<Resultats>({
     rendementBrut: 0,
     rendementNet: 0,
-    // ...
+    // Initialiser les autres résultats à des valeurs par défaut sensées
   });
+
+  // Implémenter cette fonction pour calculer les résultats à partir des inputs
+  const calculerResultats = (inputs: Inputs) => {
+    // Logique de calcul ici, retourne un objet de type Resultats
+  };
+
+  // Utiliser useEffect pour recalculer les résultats à chaque changement d'input
+  React.useEffect(() => {
+    setResultats(calculerResultats(inputs));
+  }, [inputs]);
 
   return (
     <div className="min-h-screen bg-gray-100 py-12">
@@ -27,7 +48,7 @@ export default function CalculateurPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="space-y-6">
-            {/* Contenu des blocs */}
+            {/* Contenu des blocs d'input */}
           </div>
           
           <div className="lg:sticky lg:top-8 space-y-6 self-start">
